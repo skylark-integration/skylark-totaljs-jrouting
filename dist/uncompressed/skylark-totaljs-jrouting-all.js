@@ -6957,7 +6957,7 @@ define('skylark-totaljs-jrouting/globals',[
 	"skylark-domx-query",
 	"./jR"
 ],function($,tangular){
-	return tangular.globals = function() {
+	return function() {
 		var W = window;
 
 		W.jR = jR;
@@ -6996,7 +6996,7 @@ define('skylark-totaljs-jrouting/globals',[
 				return this;
 			};
 
-			$(document).ready(function() {
+			$(function() {
 
 				jR.async();
 
