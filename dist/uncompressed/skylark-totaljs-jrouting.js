@@ -37,11 +37,16 @@
                 deps: deps.map(function(dep){
                   return absolute(dep,id);
                 }),
+                resolved: false,
                 exports: null
             };
             require(id);
         } else {
-            map[id] = factory;
+            map[id] = {
+                factory : null,
+                resolved : true,
+                exports : factory
+            };
         }
     };
     require = globals.require = function(id) {
@@ -49,14 +54,15 @@
             throw new Error('Module ' + id + ' has not been defined');
         }
         var module = map[id];
-        if (!module.exports) {
+        if (!module.resolved) {
             var args = [];
 
             module.deps.forEach(function(dep){
                 args.push(require(dep));
             })
 
-            module.exports = module.factory.apply(globals, args);
+            module.exports = module.factory.apply(globals, args) || null;
+            module.resolved = true;
         }
         return module.exports;
     };
@@ -81,8 +87,8 @@
 })(function(define,require) {
 
 define('skylark-totaljs-jrouting/jR',[
-	"skylark-utils-dom/query"
-],function($){
+	"skylark-langx/skylark"
+],function(skylark){
 	var JRFU = {};
 	var jR = {
 		LIMIT_HISTORY: 100,
@@ -662,7 +668,7 @@ define('skylark-totaljs-jrouting/jR',[
 
 	jRinit();
 
-	return jR;
+	return skylark.attach("intg.totaljs.jR",jR);
 
 });
 
@@ -670,7 +676,6 @@ define('skylark-totaljs-jrouting/jR',[
 
 
 define('skylark-totaljs-jrouting/globals',[
-	"./jR",
 	"./jR"
 ],function(tangular){
 	return tangular.globals = function() {

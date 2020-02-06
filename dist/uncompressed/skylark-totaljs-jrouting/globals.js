@@ -1,5 +1,4 @@
 define([
-	"./jR",
 	"./jR"
 ],function(tangular){
 	return tangular.globals = function() {

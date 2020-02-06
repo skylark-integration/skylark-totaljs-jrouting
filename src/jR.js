@@ -1,6 +1,6 @@
 define([
-	"skylark-utils-dom/query"
-],function($){
+	"skylark-langx/skylark"
+],function(skylark){
 	var JRFU = {};
 	var jR = {
 		LIMIT_HISTORY: 100,
@@ -580,7 +580,7 @@ define([
 
 	jRinit();
 
-	return jR;
+	return skylark.attach("intg.totaljs.jR",jR);
 
 });
 
